@@ -10,15 +10,37 @@
       
       import Thingy from "./index.js";
       const thingy = new Thingy({logEnabled: true});
-      const myLogger = data => {
+
+      var temperature_s = 0.0;
+      var humidity_s = 0.0;
+
+      const myLoggerTemp = data => {
         const tempData = data.detail;
+        temperature_s = tempData.value;
         console.log(tempData);
+      }
+
+      const myLoggerHumdity = data => {
+        const tempData = data.detail;
+        humidity_s = tempData.value;
+        console.log(tempData);
+      }
+      
+      const myGasLogger = data => {
+        console.log((new Date()).toUTCString() + " TVOC (ppb) :" + data.detail.TVOC.value + " Temperature (degC): " + temperature_s + " Humidty(%): " + humidity_s);
+        console.log(data.detail.TVOC);
+        console.log(data.detail.eCO2);
       }
       async function start(device) {
         try {
           await device.connect();
-          device.addEventListener("temperature", myLogger);
+          device.addEventListener("temperature", myLoggerTemp);
           await device.temperature.start();
+          device.addEventListener("humidity", myLoggerHumdity);
+          await device.humidity.start();
+          device.addEventListener("gas", myGasLogger);
+          await device.gas.start();
+
           await device.led.write({
             mode: "breathe",
             color: "red",
