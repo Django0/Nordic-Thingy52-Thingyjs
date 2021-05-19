@@ -17,19 +17,19 @@
       const myLoggerTemp = data => {
         const tempData = data.detail;
         temperature_s = tempData.value;
-        console.log(tempData);
+        //console.log(tempData);
       }
 
       const myLoggerHumdity = data => {
         const tempData = data.detail;
         humidity_s = tempData.value;
-        console.log(tempData);
+        //console.log(tempData);
       }
       
       const myGasLogger = data => {
-        console.log((new Date()).toUTCString() + " TVOC (ppb) :" + data.detail.TVOC.value + " Temperature (degC): " + temperature_s + " Humidty(%): " + humidity_s);
-        console.log(data.detail.TVOC);
-        console.log(data.detail.eCO2);
+        console.log((new Date()).toUTCString() + " TVOC (ppb) :" + data.detail.TVOC.value + " eCO2 (ppm) :" + data.detail.eCO2.value + " Temperature (degC) :" + temperature_s + " Humidty(%) :" + humidity_s);
+        //console.log(data.detail.TVOC);
+        //console.log(data.detail.eCO2);
       }
       async function start(device) {
         try {
